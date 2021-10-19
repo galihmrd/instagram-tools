@@ -1,0 +1,32 @@
+{
+    "name": "telegramChatBotAI",
+    "description": "Hello, I am telegramChatBotAI An Intelligent ChatBot. If You Are Feeling Lonely, You can Always Come to me and Chat With Me!",
+    "logo": "https://telegra.ph/file/a54ed27b0dc3fc3e439fd.jpg",
+    "repository": "https://github.com/galihmrd/telegramChatBotAI",
+    "env": {
+        "BOT_TOKEN": {
+            "description": "telegram bot token here",
+            "required": true
+        },
+        "KUKI_API": {
+            "description": "Contact https://t.me/kukiaisupport for free Api Key.",
+            "required": true
+        },
+        "API_ID": {
+            "description": "telegram api id here",
+            "required": true
+        },
+        "API_HASH": {
+            "description": "telegram api hash here",
+            "required": true
+        },
+        "CHATBOT_NAME": {
+            "description": "Your bot name",
+            "required": true
+        },
+        "OWNER_NAME": {
+            "description": "Your name",
+            "required": true
+        }
+    }
+}
