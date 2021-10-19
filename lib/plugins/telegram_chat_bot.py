@@ -13,10 +13,12 @@ from kukiapipy import kuki as ai
     group=2,
 )
 async def chat_bot(client, message):
+    chat_id = message.chat.id
     process = ai.chatbot(
                   key = KUKI_API,
                   name = CHATBOT_NAME,
                   owner = OWNER_NAME,
                   msg = message.text
     )
+    await client.send_chat_action(chat_id, "typing")
     await message.reply(process)
