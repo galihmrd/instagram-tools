@@ -1,6 +1,6 @@
 # telegramChatBotAI
 
-##Credits
+## Credits
 [ItelAI](https://t.me/KukiUpdates) for API
 
 ## Deploy to heroku
