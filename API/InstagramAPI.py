@@ -24,10 +24,16 @@ from requests_toolbelt import MultipartEncoder
 class InstagramAPI:
     API_URL = 'https://i.instagram.com/api/v1/'
     DEVICE_SETTINTS = {
-    'manufacturer'      : 'Xiaomi',
-    'model'             : 'HM 1SW',
-    'android_version'   : 18,
-    'android_release'   : '4.3'
+    "app_version": "136.0.0.34.124",
+    "android_version": "30",
+    "android_release": "11",
+    "dpi": "640dpi",
+    "resolution": "1080x2400",
+    "manufacturer": "xiaomi",
+    "device": "spesn",
+    "model": "2201117TY",
+    "cpu": "sm6225",
+    "version_code": "208061712",
     }
     USER_AGENT = 'Instagram 9.2.0 Android ({android_version}/{android_release}; 320dpi; 720x1280; {manufacturer}; {model}; armani; qcom; en_US)'.format(**DEVICE_SETTINTS)
     IG_SIG_KEY = '012a54f51c49aa8c5c322416ab1410909add32c966bbaa0fe3dc58ac43fd7ede'

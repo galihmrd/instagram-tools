@@ -1,5 +1,5 @@
 import aux_funcs, sys, json, time, random
-from LevPasha.InstagramAPI import InstagramAPI
+from API.InstagramAPI import InstagramAPI
 
 followers = []
 followings = []
