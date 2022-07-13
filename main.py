@@ -1,16 +1,20 @@
+import os
+import asyncio
 import aux_funcs, sys, json, time, random
 from API.InstagramAPI import InstagramAPI
+from config import INSTA_UNAME, INSTA_PW
+from pyrogram import Client
+from pyrogram.types import Message
+
 
 followers = []
 followings = []
-args = aux_funcs.get_args()
-api  = InstagramAPI(args.user, args.password)
+API  = InstagramAPI(INSTA_UNAME, INSTA_PW)
 
 ### Delay in seconds ###
 min_delay = 5
 max_delay = 10
 MAXIMO = 100
-
 
 def printUsage():
 	print("Usage: \n+ python main.py -u USERNAME -p PASSWORD -o info: Show report")
@@ -29,7 +33,8 @@ def info():
 		if i not in followers:
 			tot=tot+1
 			print(str(tot)+" "+i)
-	print("\nTotal: "+str(tot))
+			with open("dont_follow_me.txt", "w") as text_file:
+				text_file.write(str(tot)+" "+i)
 
 	print("\nThey follow me but i dont follow them:\n")
 	tot = 0
@@ -37,7 +42,6 @@ def info():
 		if i not in followings:
 			tot=tot+1
 			print(str(tot)+" "+i)
-	print("\nTotal: "+str(tot))
 
 	print("\nPeople following me:\n")
 	tot = 0
@@ -52,7 +56,6 @@ def info():
 		tot=tot+1
 		print(str(tot)+" "+i)
 	print("\nTotal: "+str(tot))
-
 
 def follow_tag(tag):
 	api.tagFeed(tag)
@@ -136,52 +139,9 @@ def unfollowall():
 			api.unfollow(user_id)
 
 
-def main():
-	option = args.option
-	api.login()
-
-	for i in api.getTotalSelfFollowers():
+def start():
+	API.login()
+	for i in API.getTotalSelfFollowers():
 		followers.append(i.get("username") )
-
-	for i in api.getTotalSelfFollowings():
+	for i in API.getTotalSelfFollowings():
 		followings.append(i.get("username") )
-
-	if(option == "info"):
-		info()
-
-	elif(option == "follow-tag"):
-		target = args.target
-		if target is not None:
-			follow_tag(target)
-		else:
-			printUsage()
-
-	elif(option == "follow-location"):
-		target = args.target
-		if target is not None:
-			follow_location(target)
-		else:
-			printUsage()
-
-	elif(option == "follow-list"):
-		target = args.target
-		if target is not None:
-			follow_list(target)
-		else:
-			printUsage()
-
-	elif(option == "super-followback"):
-		super_followback()
-
-	elif(option == "super-unfollow"):
-		super_unfollow()
-
-	elif (option == "unfollow-all"):
-		unfollowall()
-
-	else:
-		printUsage()
-
-
-if __name__ == "__main__":
-    main()

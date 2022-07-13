@@ -1,4 +1,4 @@
-﻿import struct
+import struct
 import imghdr
 import requests
 import random
