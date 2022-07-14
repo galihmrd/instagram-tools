@@ -1,4 +1,4 @@
-import os
+import os, logging
 import asyncio
 import aux_funcs, sys, json, time, random
 from API.InstagramAPI import InstagramAPI
@@ -16,6 +16,16 @@ min_delay = 5
 max_delay = 10
 MAXIMO = 100
 
+logging.basicConfig(
+    format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
+    datefmt="[%X]",
+    handlers=[logging.FileHandler("log.txt"), logging.StreamHandler()],
+    level=logging.INFO,
+)
+LOGGER = logging.getLogger(__name__)
+
+
+
 def printUsage():
 	print("Usage: \n+ python main.py -u USERNAME -p PASSWORD -o info: Show report")
 	print("+ python main.py -u USERNAME -p PASSWORD -o follow-tag -t TAG: Follow users using the tags you introduce")
@@ -27,35 +37,35 @@ def printUsage():
 
 
 def info():
-	print("I follow them but they dont follow me:\n")
+	LOGGER.info("I follow them but they dont follow me:\n")
 	tot = 0
 	for i in followings:
 		if i not in followers:
 			tot=tot+1
-			print(str(tot)+" "+i)
-			with open("dont_follow_me.txt", "w") as text_file:
-				text_file.write(str(tot)+" "+i)
+			LOGGER.info(str(tot)+" "+i)
 
-	print("\nThey follow me but i dont follow them:\n")
+	LOGGER.info("\nTotal: "+str(tot))
+
+	LOGGER.info("\nThey follow me but i dont follow them:\n")
 	tot = 0
 	for i in followers:
 		if i not in followings:
 			tot=tot+1
-			print(str(tot)+" "+i)
+			LOGGER.info(str(tot)+" "+i)
 
-	print("\nPeople following me:\n")
+	LOGGER.info("\nPeople following me:\n")
 	tot = 0
 	for i in followers:
 		tot=tot+1
 		print(str(tot)+" "+i)
-	print("\nTotal: "+str(tot))
+	LOGGER.info("\nTotal: "+str(tot))
 
-	print("\nPeople I follow:\n")
+	LOGGER.info("\nPeople I follow:\n")
 	tot = 0
 	for i in followings:
 		tot=tot+1
-		print(str(tot)+" "+i)
-	print("\nTotal: "+str(tot))
+		LOGGER.info(str(tot)+" "+i)
+	LOGGER.info("\nTotal: "+str(tot))
 
 def follow_tag(tag):
 	api.tagFeed(tag)
