@@ -1,5 +1,3 @@
-API_ID = "1234567"
-API_HASH = "56ga67771771gsgfwy6shshsh7iq8shd"
 BOT_TOKEN = "2031955486:AAajJYagajagafjajajJGFKFA"
 INSTA_UNAME = "yourinstausername"
 INSTA_PW = "yourpassword"
