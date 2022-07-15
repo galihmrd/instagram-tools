@@ -1,7 +1,9 @@
-import logging, os
-from pyrogram import Client, idle
-from config import API_HASH, API_ID, BOT_TOKEN
+import logging
+import os
 
+from pyrogram import Client, idle
+
+from config import API_HASH, API_ID, BOT_TOKEN
 
 if os.path.exists("log.txt"):
     with open("log.txt", "r+") as f:
