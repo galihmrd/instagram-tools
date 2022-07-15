@@ -98,9 +98,11 @@ def follow_location(target):
         time.sleep(float(random.uniform(min_delay * 10, max_delay * 10) / 10))
         username = i.get("user").get("username")
         user_id = aux_funcs.get_id(username)
-        api.follow(user_id)
+        API.follow(user_id)
         tot += 1
-        print("Following " + str(username) + " (with id " + str(user_id) + ")")
+        f = open("follow_location.txt", "a")
+        f.write("Following " + str(username) + " (with id " + str(user_id) + ")")
+        f.write("\n")
         if tot >= MAXIMO:
             break
     print(
@@ -120,9 +122,11 @@ def follow_list(target):
     for username in user_list:
         time.sleep(float(random.uniform(min_delay * 10, max_delay * 10) / 10))
         user_id = aux_funcs.get_id(username)
-        api.follow(user_id)
+        API.follow(user_id)
         tot += 1
-        print("Following " + str(username) + " (with id " + str(user_id) + ")")
+        f = open("follow_list.txt", "a")
+        f.write("Following " + str(username) + " (with id " + str(user_id) + ")")
+        f.write("\n")
         if tot >= MAXIMO:
             break
     print(
@@ -142,9 +146,11 @@ def super_followback():
         if i not in followings:
             count += 1
             time.sleep(float(random.uniform(min_delay * 10, max_delay * 10) / 10))
-            print(str(count) + ") Following back " + i)
+            f = open("super_followback.txt", "a")
+            f.write(str(count) + ") Following back " + i)
+            f.write("\n")
             user_id = aux_funcs.get_id(i)
-            api.follow(user_id)
+            API.follow(user_id)
 
 
 def super_unfollow():
@@ -154,21 +160,23 @@ def super_unfollow():
         if (i not in followers) and (i not in whitelist):
             count += 1
             time.sleep(float(random.uniform(min_delay * 10, max_delay * 10) / 10))
-            print(str(count) + ") Unfollowing " + i)
+            f = open("super_unfollow.txt", "a")
+            f.write(str(count) + ") Unfollowing " + i)
+            f.write("\n")
             user_id = aux_funcs.get_id(i)
-            api.unfollow(user_id)
+            API.unfollow(user_id)
 
 
-def unfollowall():
-    whitelist = open("whitelist.txt").read().splitlines()
-    count = 0
-    for i in followings:
-        if i not in whitelist:
-            count += 1
-            time.sleep(float(random.uniform(min_delay * 10, max_delay * 10) / 10))
-            print(str(count) + ") Unfollowing " + i)
-            user_id = aux_funcs.get_id(i)
-            api.unfollow(user_id)
+#def unfollowall():
+#    whitelist = open("whitelist.txt").read().splitlines()
+#    count = 0
+#    for i in followings:
+#        if i not in whitelist:
+#            count += 1
+#            time.sleep(float(random.uniform(min_delay * 10, max_delay * 10) / 10))
+#            print(str(count) + ") Unfollowing " + i)
+#            user_id = aux_funcs.get_id(i)
+#            api.unfollow(user_id)
 
 
 def start():
