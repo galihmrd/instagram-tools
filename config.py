@@ -1,3 +1,3 @@
-BOT_TOKEN = "2031955486:AAajJYagajagafjajajJGFKFA"
-INSTA_UNAME = "yourinstausername"
-INSTA_PW = "yourpassword"
+
+### Your Bot Token ###
+BOT_TOKEN = "2046855486:AAHntM-sZgacaann_ksbsgshsn_JagJgagaJvan"

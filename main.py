@@ -1,18 +1,67 @@
 import random
 import time
+import os
+import codecs
+import telebot
+from requests import post
 
 import aux_funcs
 from API.InstagramAPI import InstagramAPI
-from config import INSTA_PW, INSTA_UNAME
+from config import BOT_TOKEN
 
 followers = []
 followings = []
-API = InstagramAPI(INSTA_UNAME, INSTA_PW)
 
 ### Delay in seconds ###
 min_delay = 5
 max_delay = 10
 MAXIMO = 100
+
+class User:
+    passw = None
+    name = None
+    API = None
+
+### TELEGRAM CLIENT ###
+session = telebot.TeleBot(BOT_TOKEN)
+
+@session.message_handler(commands=["start", "help"])
+def plugin_1(self):
+    start()
+    info()
+    text = codecs.open("dont_follow_me.txt", "r", encoding="utf-8")
+    paste_text = text.read()
+    try:
+        link = (
+            post(
+                "https://nekobin.com/api/documents",
+                json={"content": paste_text},
+            )
+            .json()
+            .get("result")
+            .get("key")
+        )
+        session.send_message(self.chat.id, f"https://nekobin.com/{link}")
+        os.remove("dont_follow_me.txt")
+    except Exception as e:
+        print(e)
+
+@session.message_handler(commands=['login'])
+def name1(menss):
+    name = session.reply_to(menss, "Please enter your username")
+    session.register_next_step_handler(name, passwx)
+
+def passwx(menss):
+    User.name = menss.text
+    User.chat_id = menss.chat.id
+    passw = session.reply_to(menss, "Please enter your password")
+    session.register_next_step_handler(passw, process)
+
+def process(menss):
+    User.passw = menss.text
+    session.send_message(menss.chat.id, "Just a moment...")
+    User.API = InstagramAPI(username=User.name, password=User.passw)
+    start()
 
 
 def info():
@@ -58,7 +107,7 @@ def follow_tag(tag):
         time.sleep(float(random.uniform(min_delay * 10, max_delay * 10) / 10))
         username = i.get("user")["username"]
         user_id = i.get("user")["pk"]
-        api.follow(user_id)
+        User.API.follow(user_id)
         tot += 1
         print("Following " + str(username) + " (with id " + str(user_id) + ")")
         if tot >= MAXIMO:
@@ -76,7 +125,7 @@ def follow_location(target):
         time.sleep(float(random.uniform(min_delay * 10, max_delay * 10) / 10))
         username = i.get("user").get("username")
         user_id = aux_funcs.get_id(username)
-        API.follow(user_id)
+        User.API.follow(user_id)
         tot += 1
         f = open("follow_location.txt", "a")
         f.write("Following " + str(username) + " (with id " + str(user_id) + ")")
@@ -100,7 +149,7 @@ def follow_list(target):
     for username in user_list:
         time.sleep(float(random.uniform(min_delay * 10, max_delay * 10) / 10))
         user_id = aux_funcs.get_id(username)
-        API.follow(user_id)
+        User.API.follow(user_id)
         tot += 1
         f = open("follow_list.txt", "a")
         f.write("Following " + str(username) + " (with id " + str(user_id) + ")")
@@ -128,7 +177,7 @@ def super_followback():
             f.write(str(count) + ") Following back " + i)
             f.write("\n")
             user_id = aux_funcs.get_id(i)
-            API.follow(user_id)
+            User.API.follow(user_id)
 
 
 def super_unfollow():
@@ -142,7 +191,7 @@ def super_unfollow():
             f.write(str(count) + ") Unfollowing " + i)
             f.write("\n")
             user_id = aux_funcs.get_id(i)
-            API.unfollow(user_id)
+            User.API.unfollow(user_id)
 
 
 # def unfollowall():
@@ -158,8 +207,14 @@ def super_unfollow():
 
 
 def start():
-    API.login()
-    for i in API.getTotalSelfFollowers():
+    User.API.login()
+    for i in User.API.getTotalSelfFollowers():
         followers.append(i.get("username"))
-    for i in API.getTotalSelfFollowings():
+    for i in User.API.getTotalSelfFollowings():
         followings.append(i.get("username"))
+
+if __name__ == "__main__":
+    try:
+        session.infinity_polling()
+    except Exception:
+        time.sleep(15)
