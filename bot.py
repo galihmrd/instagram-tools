@@ -1,15 +1,16 @@
 import codecs
 import os
+
 import telebot
-from telebot import types
-from main import info, start, super_unfollow
-from config import BOT_TOKEN
 from requests import post
+
+from config import BOT_TOKEN
+from main import info, start
 
 session = telebot.TeleBot(BOT_TOKEN)
 
 
-@session.message_handler(commands=['start', 'help'])
+@session.message_handler(commands=["start", "help"])
 def plugin_1(self):
     start()
     info()
@@ -31,8 +32,8 @@ def plugin_1(self):
         print(e)
 
 
-#@Client.on_message(filters.command("super-unfollow"))
-#async def super_unfoll(client, message):
+# @Client.on_message(filters.command("super-unfollow"))
+# async def super_unfoll(client, message):
 #    start()
 #    super_unfollow()
 #    text = codecs.open("super_unfollow.txt", "r+", encoding="utf-8")
@@ -51,7 +52,7 @@ def plugin_1(self):
 #    except Exception as e:
 #        print(e)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     try:
         session.infinity_polling()
     except Exception:

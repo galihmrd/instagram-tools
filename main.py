@@ -167,7 +167,7 @@ def super_unfollow():
             API.unfollow(user_id)
 
 
-#def unfollowall():
+# def unfollowall():
 #    whitelist = open("whitelist.txt").read().splitlines()
 #    count = 0
 #    for i in followings:
