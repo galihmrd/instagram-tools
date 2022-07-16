@@ -22,12 +22,11 @@ class User:
     name = None
     API = None
 
-### TELEGRAM CLIENT ###
 session = telebot.TeleBot(BOT_TOKEN)
+
 
 @session.message_handler(commands=["start", "help"])
 def plugin_1(self):
-    start()
     info()
     text = codecs.open("dont_follow_me.txt", "r", encoding="utf-8")
     paste_text = text.read()
@@ -61,7 +60,7 @@ def process(menss):
     User.passw = menss.text
     session.send_message(menss.chat.id, "Just a moment...")
     User.API = InstagramAPI(username=User.name, password=User.passw)
-    start()
+    start(menss)
 
 
 def info():
@@ -206,12 +205,16 @@ def super_unfollow():
 #            api.unfollow(user_id)
 
 
-def start():
-    User.API.login()
-    for i in User.API.getTotalSelfFollowers():
-        followers.append(i.get("username"))
-    for i in User.API.getTotalSelfFollowings():
-        followings.append(i.get("username"))
+def start(self):
+    try:
+       User.API.login()
+       for i in User.API.getTotalSelfFollowers():
+           followers.append(i.get("username"))
+       for i in User.API.getTotalSelfFollowings():
+           followings.append(i.get("username"))
+       session.send_message(self.chat.id, "Login successfully")
+    except Exception as e:
+       session.send_message(self.chat.id, f"Login Failed...\nLog: {e}")
 
 if __name__ == "__main__":
     try:
