@@ -1,7 +1,8 @@
+import codecs
+import os
 import random
 import time
-import os
-import codecs
+
 import telebot
 from requests import post
 
@@ -17,10 +18,12 @@ min_delay = 5
 max_delay = 10
 MAXIMO = 100
 
+
 class User:
     passw = None
     name = None
     API = None
+
 
 session = telebot.TeleBot(BOT_TOKEN)
 
@@ -45,16 +48,19 @@ def plugin_1(self):
     except Exception as e:
         print(e)
 
-@session.message_handler(commands=['login'])
+
+@session.message_handler(commands=["login"])
 def name1(menss):
     name = session.reply_to(menss, "Please enter your username:")
     session.register_next_step_handler(name, passwx)
+
 
 def passwx(menss):
     User.name = menss.text
     User.chat_id = menss.chat.id
     passw = session.reply_to(menss, "Please enter your password:")
     session.register_next_step_handler(passw, process)
+
 
 def process(menss):
     User.passw = menss.text
@@ -217,14 +223,15 @@ def super_unfollow():
 
 def start(self):
     try:
-       User.API.login()
-       for i in User.API.getTotalSelfFollowers():
-           followers.append(i.get("username"))
-       for i in User.API.getTotalSelfFollowings():
-           followings.append(i.get("username"))
-       session.send_message(self.chat.id, "Login successfully")
+        User.API.login()
+        for i in User.API.getTotalSelfFollowers():
+            followers.append(i.get("username"))
+        for i in User.API.getTotalSelfFollowings():
+            followings.append(i.get("username"))
+        session.send_message(self.chat.id, "Login successfully")
     except Exception as e:
-       session.send_message(self.chat.id, f"Login Failed...\nLog: {e}")
+        session.send_message(self.chat.id, f"Login Failed...\nLog: {e}")
+
 
 if __name__ == "__main__":
     try:
