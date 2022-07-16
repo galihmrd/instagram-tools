@@ -25,7 +25,7 @@ class User:
 session = telebot.TeleBot(BOT_TOKEN)
 
 
-@session.message_handler(commands=["start", "help"])
+@session.message_handler(commands=["info"])
 def plugin_1(self):
     info()
     text = codecs.open("dont_follow_me.txt", "r", encoding="utf-8")
@@ -47,13 +47,13 @@ def plugin_1(self):
 
 @session.message_handler(commands=['login'])
 def name1(menss):
-    name = session.reply_to(menss, "Please enter your username")
+    name = session.reply_to(menss, "Please enter your username:")
     session.register_next_step_handler(name, passwx)
 
 def passwx(menss):
     User.name = menss.text
     User.chat_id = menss.chat.id
-    passw = session.reply_to(menss, "Please enter your password")
+    passw = session.reply_to(menss, "Please enter your password:")
     session.register_next_step_handler(passw, process)
 
 def process(menss):
@@ -64,37 +64,47 @@ def process(menss):
 
 
 def info():
-    print("I follow them but they dont follow me:\n")
+    f = open("dont_follow_me.txt", "a")
+    f.write("I follow them but they dont follow me:\n")
     tot = 0
     for i in followings:
         if i not in followers:
             tot = tot + 1
-            f = open("dont_follow_me.txt", "a")
             f.write(str(tot) + " " + i)
             f.write("\n")
 
-    print("\nTotal: " + str(tot))
+    f.write("\nTotal: " + str(tot))
+    f.write("\n\n")
 
-    print("\nThey follow me but i dont follow them:\n")
+    f.write("\nThey follow me but i dont follow them:\n")
     tot = 0
     for i in followers:
         if i not in followings:
             tot = tot + 1
-            print(str(tot) + " " + i)
+            f.write(str(tot) + " " + i)
+            f.write("\n")
 
-    print("\nPeople following me:\n")
+    f.write("\nTotal: " + str(tot))
+    f.write("\n\n")
+
+    f.write("\nPeople following me:\n")
     tot = 0
     for i in followers:
         tot = tot + 1
-        print(str(tot) + " " + i)
-    print("\nTotal: " + str(tot))
+        f.write(str(tot) + " " + i)
+        f.write("\n")
 
-    print("\nPeople I follow:\n")
+    f.write("\nTotal: " + str(tot))
+    f.write("\n\n")
+
+    f.write("\nPeople I follow:\n")
     tot = 0
     for i in followings:
         tot = tot + 1
-        print(str(tot) + " " + i)
-    print("\nTotal: " + str(tot))
+        f.write(str(tot) + " " + i)
+        f.write("\n")
+
+    f.write("\nTotal: " + str(tot))
 
 
 def follow_tag(tag):
@@ -218,6 +228,7 @@ def start(self):
 
 if __name__ == "__main__":
     try:
+       print("Started...!")
         session.infinity_polling()
     except Exception:
         time.sleep(15)
