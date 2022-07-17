@@ -121,23 +121,24 @@ def command(self):
          except Exception as e:
              print(e)
     elif self.text == "login account":
-         def name1(menss):
-             name = session.reply_to(menss, "Please enter your username:")
-             session.register_next_step_handler(name, passwx)
+         name = session.reply_to(self, "Please enter your username:")
+         session.register_next_step_handler(name, passwx)
 
-         def passwx(menss):
-             User.name = menss.text
-             User.chat_id = menss.chat.id
-             passw = session.reply_to(menss, "Please enter your password:")
-             session.register_next_step_handler(passw, process)
-
-         def process(menss):
-             User.passw = menss.text
-             session.send_message(menss.chat.id, "Just a moment...")
-             User.API = InstagramAPI(username=User.name, password=User.passw)
-             start(menss)
     else:
          session.send_message(self.chat.id, "Input invalid!")
+
+
+def passwx(self):
+    User.name = self.text
+    User.chat_id = self.chat.id
+    passw = session.reply_to(self, "Please enter your password:")
+    session.register_next_step_handler(passw, process)
+
+def process(self):
+    User.passw = self.text
+    session.send_message(self.chat.id, "Just a moment...")
+    User.API = InstagramAPI(username=User.name, password=User.passw)
+    start(self)
 
 
 def info():
