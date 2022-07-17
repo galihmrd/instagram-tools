@@ -4,14 +4,12 @@ import random
 import time
 
 import telebot
-from telebot.types import KeyboardButton, ReplyKeyboardMarkup
 from requests import post
+from telebot.types import KeyboardButton, ReplyKeyboardMarkup
 
 import aux_funcs
 from API.InstagramAPI import InstagramAPI
-
 from config import BOT_TOKEN
-
 
 if BOT_TOKEN == "null":
     BOT_TOKEN = input("Input your bot token: ")
@@ -34,16 +32,14 @@ class User:
 session = telebot.TeleBot(BOT_TOKEN)
 
 
-b1 = KeyboardButton('info')
-b2 = KeyboardButton('super unfollow')
-b3 = KeyboardButton('super followback')
-b4 = KeyboardButton('unfollow all')
-b5 = KeyboardButton('login account')
+b1 = KeyboardButton("info")
+b2 = KeyboardButton("super unfollow")
+b3 = KeyboardButton("super followback")
+b4 = KeyboardButton("unfollow all")
+b5 = KeyboardButton("login account")
 k1 = ReplyKeyboardMarkup(resize_keyboard=True)
 k1.row(b1, b2, b5)
 k1.row(b3, b4)
-
-
 
 
 @session.message_handler(commands=["start"])
@@ -54,83 +50,83 @@ def start(self):
 @session.message_handler()
 def command(self):
     if self.text == "info":
-         info()
-         text = codecs.open("dont_follow_me.txt", "r", encoding="utf-8")
-         paste_text = text.read()
-         try:
-             link = (
-                 post(
-                     "https://nekobin.com/api/documents",
-                     json={"content": paste_text},
-                 )
-                 .json()
-                 .get("result")
-                 .get("key")
-             )
-             session.send_message(self.chat.id, f"https://nekobin.com/{link}")
-             os.remove("dont_follow_me.txt")
-         except Exception as e:
-             print(e)
+        info()
+        text = codecs.open("dont_follow_me.txt", "r", encoding="utf-8")
+        paste_text = text.read()
+        try:
+            link = (
+                post(
+                    "https://nekobin.com/api/documents",
+                    json={"content": paste_text},
+                )
+                .json()
+                .get("result")
+                .get("key")
+            )
+            session.send_message(self.chat.id, f"https://nekobin.com/{link}")
+            os.remove("dont_follow_me.txt")
+        except Exception as e:
+            print(e)
     elif self.text == "super unfollow":
-         super_unfollow()
-         text = codecs.open("super_unfollow.txt", "r", encoding="utf-8")
-         paste_text = text.read()
-         try:
-             link = (
-                 post(
-                     "https://nekobin.com/api/documents",
-                     json={"content": paste_text},
-                 )
-                 .json()
-                 .get("result")
-                 .get("key")
-             )
-             session.send_message(self.chat.id, f"https://nekobin.com/{link}")
-             os.remove("super_unfollow.txt")
-         except Exception as e:
-             print(e)
+        super_unfollow()
+        text = codecs.open("super_unfollow.txt", "r", encoding="utf-8")
+        paste_text = text.read()
+        try:
+            link = (
+                post(
+                    "https://nekobin.com/api/documents",
+                    json={"content": paste_text},
+                )
+                .json()
+                .get("result")
+                .get("key")
+            )
+            session.send_message(self.chat.id, f"https://nekobin.com/{link}")
+            os.remove("super_unfollow.txt")
+        except Exception as e:
+            print(e)
     elif self.text == "super followback":
-         super_followback()
-         text = codecs.open("super_followback.txt", "r", encoding="utf-8")
-         paste_text = text.read()
-         try:
-             link = (
-                 post(
-                     "https://nekobin.com/api/documents",
-                     json={"content": paste_text},
-                 )
-                 .json()
-                 .get("result")
-                 .get("key")
-             )
-             session.send_message(self.chat.id, f"https://nekobin.com/{link}")
-             os.remove("super_followback.txt")
-         except Exception as e:
-             print(e)
+        super_followback()
+        text = codecs.open("super_followback.txt", "r", encoding="utf-8")
+        paste_text = text.read()
+        try:
+            link = (
+                post(
+                    "https://nekobin.com/api/documents",
+                    json={"content": paste_text},
+                )
+                .json()
+                .get("result")
+                .get("key")
+            )
+            session.send_message(self.chat.id, f"https://nekobin.com/{link}")
+            os.remove("super_followback.txt")
+        except Exception as e:
+            print(e)
     elif self.text == "unfollow all":
-         unfollowall()
-         text = codecs.open("unfollowall.txt", "r", encoding="utf-8")
-         paste_text = text.read()
-         try:
-             link = (
-                 post(
-                     "https://nekobin.com/api/documents",
-                     json={"content": paste_text},
-                 )
-                 .json()
-                 .get("result")
-                 .get("key")
-             )
-             session.send_message(self.chat.id, f"https://nekobin.com/{link}")
-             os.remove("unfollowall.txt")
-         except Exception as e:
-             print(e)
+        unfollowall()
+        text = codecs.open("unfollowall.txt", "r", encoding="utf-8")
+        paste_text = text.read()
+        try:
+            link = (
+                post(
+                    "https://nekobin.com/api/documents",
+                    json={"content": paste_text},
+                )
+                .json()
+                .get("result")
+                .get("key")
+            )
+            session.send_message(self.chat.id, f"https://nekobin.com/{link}")
+            os.remove("unfollowall.txt")
+        except Exception as e:
+            print(e)
     elif self.text == "login account":
-         name = session.reply_to(self, "Please enter your username:")
-         session.register_next_step_handler(name, passwx)
+        name = session.reply_to(self, "Please enter your username:")
+        session.register_next_step_handler(name, passwx)
 
     else:
-         session.send_message(self.chat.id, "Input invalid!")
+        session.send_message(self.chat.id, "Input invalid!")
 
 
 def passwx(self):
@@ -138,6 +134,7 @@ def passwx(self):
     User.chat_id = self.chat.id
     passw = session.reply_to(self, "Please enter your password:")
     session.register_next_step_handler(passw, process)
+
 
 def process(self):
     User.passw = self.text
