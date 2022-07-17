@@ -4,6 +4,7 @@ import random
 import time
 
 import telebot
+from telebot.types import KeyboardButton, ReplyKeyboardMarkup
 from requests import post
 
 import aux_funcs
@@ -28,45 +29,115 @@ class User:
 session = telebot.TeleBot(BOT_TOKEN)
 
 
-@session.message_handler(commands=["info"])
-def plugin_1(self):
-    info()
-    text = codecs.open("dont_follow_me.txt", "r", encoding="utf-8")
-    paste_text = text.read()
-    try:
-        link = (
-            post(
-                "https://nekobin.com/api/documents",
-                json={"content": paste_text},
-            )
-            .json()
-            .get("result")
-            .get("key")
-        )
-        session.send_message(self.chat.id, f"https://nekobin.com/{link}")
-        os.remove("dont_follow_me.txt")
-    except Exception as e:
-        print(e)
+b1 = KeyboardButton('info')
+b2 = KeyboardButton('super unfollow')
+b3 = KeyboardButton('super followback')
+b4 = KeyboardButton('unfollow all')
+b5 = KeyboardButton('login account')
+k1 = ReplyKeyboardMarkup(resize_keyboard=True)
+k1.row(b1, b2, b5)
+k1.row(b3, b4)
 
 
-@session.message_handler(commands=["login"])
-def name1(menss):
-    name = session.reply_to(menss, "Please enter your username:")
-    session.register_next_step_handler(name, passwx)
 
 
-def passwx(menss):
-    User.name = menss.text
-    User.chat_id = menss.chat.id
-    passw = session.reply_to(menss, "Please enter your password:")
-    session.register_next_step_handler(passw, process)
+@session.message_handler(commands=["start"])
+def start(self):
+    session.send_message(self.chat.id, "choose menu:", reply_markup=k1)
 
 
-def process(menss):
-    User.passw = menss.text
-    session.send_message(menss.chat.id, "Just a moment...")
-    User.API = InstagramAPI(username=User.name, password=User.passw)
-    start(menss)
+@session.message_handler()
+def command(self):
+    if self.text == "info":
+         info()
+         text = codecs.open("dont_follow_me.txt", "r", encoding="utf-8")
+         paste_text = text.read()
+         try:
+             link = (
+                 post(
+                     "https://nekobin.com/api/documents",
+                     json={"content": paste_text},
+                 )
+                 .json()
+                 .get("result")
+                 .get("key")
+             )
+             session.send_message(self.chat.id, f"https://nekobin.com/{link}")
+             os.remove("dont_follow_me.txt")
+         except Exception as e:
+             print(e)
+    elif self.text == "super unfollow":
+         super_unfollow()
+         text = codecs.open("super_unfollow.txt", "r", encoding="utf-8")
+         paste_text = text.read()
+         try:
+             link = (
+                 post(
+                     "https://nekobin.com/api/documents",
+                     json={"content": paste_text},
+                 )
+                 .json()
+                 .get("result")
+                 .get("key")
+             )
+             session.send_message(self.chat.id, f"https://nekobin.com/{link}")
+             os.remove("super_unfollow.txt")
+         except Exception as e:
+             print(e)
+    elif self.text == "super followback":
+         super_followback()
+         text = codecs.open("super_followback.txt", "r", encoding="utf-8")
+         paste_text = text.read()
+         try:
+             link = (
+                 post(
+                     "https://nekobin.com/api/documents",
+                     json={"content": paste_text},
+                 )
+                 .json()
+                 .get("result")
+                 .get("key")
+             )
+             session.send_message(self.chat.id, f"https://nekobin.com/{link}")
+             os.remove("super_followback.txt")
+         except Exception as e:
+             print(e)
+    elif self.text == "unfollow all":
+         unfollowall()
+         text = codecs.open("unfollowall.txt", "r", encoding="utf-8")
+         paste_text = text.read()
+         try:
+             link = (
+                 post(
+                     "https://nekobin.com/api/documents",
+                     json={"content": paste_text},
+                 )
+                 .json()
+                 .get("result")
+                 .get("key")
+             )
+             session.send_message(self.chat.id, f"https://nekobin.com/{link}")
+             os.remove("unfollowall.txt")
+         except Exception as e:
+             print(e)
+    elif self.text == "login account":
+         def name1(menss):
+             name = session.reply_to(menss, "Please enter your username:")
+             session.register_next_step_handler(name, passwx)
+
+         def passwx(menss):
+             User.name = menss.text
+             User.chat_id = menss.chat.id
+             passw = session.reply_to(menss, "Please enter your password:")
+             session.register_next_step_handler(passw, process)
+
+         def process(menss):
+             User.passw = menss.text
+             session.send_message(menss.chat.id, "Just a moment...")
+             User.API = InstagramAPI(username=User.name, password=User.passw)
+             start(menss)
+    else:
+         session.send_message(self.chat.id, "Input invalid!")
 
 
 def info():
@@ -209,16 +280,16 @@ def super_unfollow():
             User.API.unfollow(user_id)
 
 
-# def unfollowall():
-#    whitelist = open("whitelist.txt").read().splitlines()
-#    count = 0
-#    for i in followings:
-#        if i not in whitelist:
-#            count += 1
-#            time.sleep(float(random.uniform(min_delay * 10, max_delay * 10) / 10))
-#            print(str(count) + ") Unfollowing " + i)
-#            user_id = aux_funcs.get_id(i)
-#            api.unfollow(user_id)
+def unfollowall():
+    whitelist = open("whitelist.txt").read().splitlines()
+    count = 0
+    for i in followings:
+        if i not in whitelist:
+            count += 1
+            time.sleep(float(random.uniform(min_delay * 10, max_delay * 10) / 10))
+            print(str(count) + ") Unfollowing " + i)
+            user_id = aux_funcs.get_id(i)
+            api.unfollow(user_id)
 
 
 def start(self):
