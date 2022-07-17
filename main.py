@@ -9,7 +9,12 @@ from requests import post
 
 import aux_funcs
 from API.InstagramAPI import InstagramAPI
+
 from config import BOT_TOKEN
+
+
+if BOT_TOKEN == "null":
+    BOT_TOKEN = input("Input your bot token: ")
 
 followers = []
 followings = []
