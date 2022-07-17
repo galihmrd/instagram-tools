@@ -1020,7 +1020,7 @@ def get_id(username):
                 return str(i["user"]["pk"])
     except:
         print(
-            "\nNote: There was an error unfollowing %s, please try again later."
+            "\nNote: There was an error execution %s, please try again later."
             % (username)
         )
         return "0"
