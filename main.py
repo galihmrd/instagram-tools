@@ -290,9 +290,11 @@ def unfollowall():
         if i not in whitelist:
             count += 1
             time.sleep(float(random.uniform(min_delay * 10, max_delay * 10) / 10))
-            print(str(count) + ") Unfollowing " + i)
+            f = open("unfollowall.txt", "a")
+            f.write(str(count) + ") Unfollowing " + i)
+            f.write("\n")
             user_id = aux_funcs.get_id(i)
-            api.unfollow(user_id)
+            User.API.unfollow(user_id)
 
 
 def start(self):
