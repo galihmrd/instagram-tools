@@ -150,7 +150,7 @@ def info():
     for i in followings:
         if i not in followers:
             tot = tot + 1
-            f.write(str(tot) + " " + i)
+            f.write(f"{str(tot)} {i}")
             f.write("\n")
 
     f.write("\nTotal: " + str(tot))
@@ -161,7 +161,7 @@ def info():
     for i in followers:
         if i not in followings:
             tot = tot + 1
-            f.write(str(tot) + " " + i)
+            f.write(f"{str(tot)} {i}")
             f.write("\n")
 
     f.write("\nTotal: " + str(tot))
@@ -171,7 +171,7 @@ def info():
     tot = 0
     for i in followers:
         tot = tot + 1
-        f.write(str(tot) + " " + i)
+        f.write(f"{str(tot)} {i}")
         f.write("\n")
 
     f.write("\nTotal: " + str(tot))
@@ -181,7 +181,7 @@ def info():
     tot = 0
     for i in followings:
         tot = tot + 1
-        f.write(str(tot) + " " + i)
+        f.write(f"{str(tot)} {i}")
         f.write("\n")
 
     f.write("\nTotal: " + str(tot))
@@ -198,12 +198,10 @@ def follow_tag(tag):
         user_id = i.get("user")["pk"]
         User.API.follow(user_id)
         tot += 1
-        print("Following " + str(username) + " (with id " + str(user_id) + ")")
+        print(f"Following {str(username)} (with id {str(user_id)})")
         if tot >= MAXIMO:
             break
-    print(
-        "Total: " + str(tot) + " for tag " + tag + " (Max val: " + str(MAXIMO) + ")\n"
-    )
+    print(f"Total: {str(tot)} for tag {tag} (Max val: {str(MAXIMO)}" + ")\n")
 
 
 def follow_location(target):
@@ -217,7 +215,7 @@ def follow_location(target):
         User.API.follow(user_id)
         tot += 1
         f = open("follow_location.txt", "a")
-        f.write("Following " + str(username) + " (with id " + str(user_id) + ")")
+        f.write(f"Following {str(username)} (with id {str(user_id)})")
         f.write("\n")
         if tot >= MAXIMO:
             break
@@ -241,7 +239,7 @@ def follow_list(target):
         User.API.follow(user_id)
         tot += 1
         f = open("follow_list.txt", "a")
-        f.write("Following " + str(username) + " (with id " + str(user_id) + ")")
+        f.write(f"Following {str(username)} (with id {str(user_id)})")
         f.write("\n")
         if tot >= MAXIMO:
             break
@@ -263,7 +261,7 @@ def super_followback():
             count += 1
             time.sleep(float(random.uniform(min_delay * 10, max_delay * 10) / 10))
             f = open("super_followback.txt", "a")
-            f.write(str(count) + ") Following back " + i)
+            f.write(f"{count}) Following back {i}")
             f.write("\n")
             user_id = aux_funcs.get_id(i)
             User.API.follow(user_id)
@@ -277,7 +275,7 @@ def super_unfollow():
             count += 1
             time.sleep(float(random.uniform(min_delay * 10, max_delay * 10) / 10))
             f = open("super_unfollow.txt", "a")
-            f.write(str(count) + ") Unfollowing " + i)
+            f.write(f"{count}) Unfollowing {i}")
             f.write("\n")
             user_id = aux_funcs.get_id(i)
             User.API.unfollow(user_id)
@@ -291,7 +289,7 @@ def unfollowall():
             count += 1
             time.sleep(float(random.uniform(min_delay * 10, max_delay * 10) / 10))
             f = open("unfollowall.txt", "a")
-            f.write(str(count) + ") Unfollowing " + i)
+            f.write(f"{count}) Unfollowing {i}")
             f.write("\n")
             user_id = aux_funcs.get_id(i)
             User.API.unfollow(user_id)
